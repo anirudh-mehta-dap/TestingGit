@@ -1,0 +1,56 @@
+#####################################################################################################################
+## This program calculates the inverse of a matrix and cached the results.                                          #
+## If the cacheSolve function is called on the same matrix object again then it will display the cached results     #
+##                                                                                                                  #
+#####################################################################################################################
+###   How to use the fucntions                                                                                      #
+#####################################################################################################################
+##                                                                                                                  #
+##  * create a maxtrix object                                                                                       #
+##        M<-matrix(c(8,11,2,5),2,2)  # A 2x2 matrix                                                                #
+##  * call the makeCacheMatrix function to return a list of compiled objects                                        #
+##        cahced_mat_vector <- makeCacheMatrix(M)                                                                   #
+##  * call the cacheSolve function                                                                                  #
+##        cacheSolve(cahced_mat_vector) #The code will print a message that it is caching the results               #
+##        cacheSolve(cahced_mat_vector) # Running it again will print a message that compiled value is being used   #
+#####################################################################################################################
+
+
+
+
+
+## The function to create a list of compiled objects
+
+makeCacheMatrix <- function(x = matrix()) {
+cached_matrix<-NULL
+cache_the_matrix<-function(some_matrix){
+                  cached_matrix <<- some_matrix
+                  }
+inverse_matrix<-function(x) solve(x) 
+get_chached_matrix<-function() cached_matrix
+source_matrix<-function() x
+
+list(get_matrix=get_chached_matrix,orig_matrix=source_matrix,inv_matrix=inverse_matrix,set_matrix=cache_the_matrix)
+}
+
+
+## This function will cache the results
+
+cacheSolve <- function(x, ...) {
+        ## Return a matrix that is the inverse of 'x'
+        cached_m<-x$get_matrix()
+        if(!is.null(cached_m)){
+           message("getting cached matrix")
+           return(cached_m)
+           }
+        else {
+           message("calculating the inverse from scratch..")
+          mat<-x$orig_matrix()
+          print("the original matrix was:")
+          print(mat)
+          inverse<-x$inv_matrix(mat)
+          x$set_matrix(inverse)
+          print("the inverse matrix is:")
+          inverse
+        }   
+}
